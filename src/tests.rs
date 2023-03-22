@@ -1,14 +1,21 @@
+// TODO figure out a nicer way to refer to the other functions
+
 #[cfg(test)]
 mod tests {
 
     #[test]
-    fn test_determinant_cramer() {}
+    fn test_determinant_cramer() {
+        assert_eq!(crate::determinant_cramer(vec![vec![1]]), 1);
+        assert_eq!(crate::determinant_cramer(vec![vec![1, 0], vec![0, 1]]), 1);
+        assert_eq!(crate::determinant_cramer(vec![vec![1, 1], vec![1, 1]]), 0);
+        assert_eq!(crate::determinant_cramer(vec![vec![1, 2], vec![3, 4]]), -2);
+    }
 
     #[test]
     fn test_determinant_bezout() {}
 
     #[test]
-    fn test_extracte_submatrix() {}
+    fn test_extract_submatrix() {}
 
     #[test]
     fn test_sign() {

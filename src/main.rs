@@ -1,16 +1,16 @@
+use std::io;
 // Caluculate the determinant of a matrix
 // TODO have the determinant functions return an
 // Option or Result instead of just an integer
+// TODO generalize to f32/f64 instead of just integers
 // A matrix is a vector of rows vectors.
 // First coordinate is the row, second coordinate is the vector
 
 mod tests;
 
 fn main() {
-    println!("{}", determinant_cramer(vec![vec![1]]));
-    println!("{}", determinant_cramer(vec![vec![1, 0], vec![0, 1]]));
-    println!("{}", determinant_cramer(vec![vec![1, 1], vec![1, 1]]));
-    println!("{}", determinant_cramer(vec![vec![1, 2], vec![3, 4]]));
+    let a = get_input_matrix();
+    println!("{}", determinant_cramer(a));
 }
 
 #[allow(non_snake_case)]
@@ -103,4 +103,20 @@ fn sign(s: Vec<usize>) -> i32 {
     }
     let base: i32 = -1;
     base.pow(inversions)
+}
+
+fn get_input_matrix() -> Vec<Vec<i32>> {
+    let mut input = String::new();
+    println!("How many rows does the square matrix have?");
+    io::stdin().read_line(&mut input).unwrap();
+    let n: usize = input.parse().unwrap();
+
+    let mut a: Vec<Vec<i32>> = vec![];
+    for i in 0..n {
+        println!("please input row {}", i);
+        io::stdin().read_line(&mut input).unwrap();
+        let row: Vec<i32> = Vec::from(input.clone()).iter().map(|x| *x as i32).collect();
+        a.push(row);
+    }
+    a
 }
