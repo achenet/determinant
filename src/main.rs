@@ -10,7 +10,9 @@ mod tests;
 
 fn main() {
     let a = get_input_matrix();
-    println!("{}", determinant_cramer(a));
+    println!("your matrix:");
+    pretty_print(a.clone());
+    println!("the determinant of you matrix is {}", determinant_cramer(a));
 }
 
 #[allow(non_snake_case)]
@@ -109,14 +111,35 @@ fn get_input_matrix() -> Vec<Vec<i32>> {
     let mut input = String::new();
     println!("How many rows does the square matrix have?");
     io::stdin().read_line(&mut input).unwrap();
-    let n: usize = input.parse().unwrap();
+    let n: usize = input.trim().parse().unwrap();
+
+    input.clear();
 
     let mut a: Vec<Vec<i32>> = vec![];
     for i in 0..n {
         println!("please input row {}", i);
-        io::stdin().read_line(&mut input).unwrap();
-        let row: Vec<i32> = Vec::from(input.clone()).iter().map(|x| *x as i32).collect();
+        io::stdin()
+            .read_line(&mut input)
+            .expect("failed to read line");
+        let row: Vec<i32> = input
+            .trim()
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .iter()
+            .map(|x| x.parse::<i32>().expect("failed to parse int"))
+            .collect();
         a.push(row);
+        input.clear();
     }
     a
+}
+
+fn pretty_print(matrix: Vec<Vec<i32>>) {
+    for row in matrix {
+        print!("| ");
+        for col in row {
+            print!("{} ", col);
+        }
+        println!("|");
+    }
 }
