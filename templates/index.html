@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Determinant calculator</title>
+</head>
+
+<body>
+  <main>
+    <h2>Determinant Calculator</h2>
+    <!--maybe use javascript to dynamically generate the form fields? -->
+    <form action="/" method="post" enctype="application/x-www-form-urlencoded">
+      <label for="row-input">Input number of rows in the square matrix
+        you'd like to calculate the determinant for</label>
+      <input id="row-input" type="number">
+      <button onclick="modify(event)" id="row-button">Submit</button>
+    </form>
+  </main>
+</body>
+
+<script>
+  function modify(event) {
+    event.preventDefault();
+    let form = document.getElementById("form");
+    let rows = document.getElementById("row-input").value;
+    form.removeChild(document.getElementById("row-input"));
+    form.removeChild(document.getElementById("row-button"));
+    for (let i = 0; i < rows; i++) {
+      let row = document.createElement("input");
+      row.type = "text";
+      row.name = "row" + i;
+      row.id = "row" + i;
+      form.appendChild(row);
+      form.appendChild(document.createElement("br"));
+    }
+    let submit = document.createElement("button");
+    submit.type = "submit"
+    submit.textContent = "Submit"
+    form.appendChild(submit);
+  }
+</script>
+
+</html>

@@ -1,35 +1,43 @@
-use std::io;
 // Caluculate the determinant of a matrix
 // TODO have the determinant functions return an
 // Option or Result instead of just an integer
-// TODO generalize to f32/f64 instead of just integers
 // A matrix is a vector of rows vectors.
 // First coordinate is the row, second coordinate is the vector
+use askama::Template;
+use axum::{
+    response::{Html, IntoResponse},
+    routing::{get, post},
+    Router,
+};
+use std::io;
+use std::net::SocketAddr;
 
 mod tests;
 
-fn main() {
-    let a = get_input_matrix();
-    println!("your matrix:");
-    pretty_print(a.clone());
-    println!("the determinant of you matrix is {}", determinant_cramer(a));
+#[tokio::main]
+async fn main() {
+    let app = Router::new()
+        .route("/", get(root))
+        .route("/", post(calculate));
+    let address = SocketAddr::from(([12, 0, 0, 1], 8080));
+    axum::Server::bind(&address)
+        .serve(app.into_make_service())
+        .await
+        .unwrap();
 }
 
-#[allow(non_snake_case)]
-#[allow(dead_code)]
-fn determinant_bezout(A: Vec<Vec<i32>>) -> i32 {
-    if !is_a_square_matrix(A.clone()) {
-        return 0;
-    }
-    let n = A.len();
-    if n == 1 {
-        return A[0][0];
-    }
-    if n == 2 {
-        return A[0][0] * A[1][1] - A[0][1] * A[1][0];
-    }
+#[derive(Template)]
+#[template(path = "index.html")]
+struct IndexTemplate {}
+async fn root() -> impl IntoResponse {
+    let template = IndexTemplate {};
+    Html(template.render().unwrap())
+}
+
+async fn calculate() -> impl IntoResponse {
     // TODO
-    7
+    let template = IndexTemplate {};
+    Html(template.render().unwrap())
 }
 
 #[allow(non_snake_case)]
